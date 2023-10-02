@@ -13,4 +13,5 @@
 #  director_id :integer
 #
 class Movie < ApplicationRecord
+  validates :director_id, presence: true
 end
