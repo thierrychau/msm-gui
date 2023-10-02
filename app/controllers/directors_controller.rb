@@ -45,4 +45,32 @@ class DirectorsController < ApplicationController
     director.image = params.fetch("query_image")
     director.save 
   end
+
+  def destroy
+    the_id = params.fetch("path_id")
+    matching_directors = Director.where({ :id => the_id })
+    the_director = matching_directors.at(0)
+
+    the_director.destroy
+
+    redirect_to("/directors")
+  end
+
+  def update
+    the_id = params.fetch("path_id")
+    matching_directors = Director.where({ :id => the_id })
+    the_director = matching_directors.at(0)
+
+    the_director.name = params.fetch("query_name")
+    the_director.dob = params.fetch("query_dob")
+    the_director.bio = params.fetch("query_bio")
+    the_director.image = params.fetch("query_image")
+
+    if the_director.valid?
+      the_director.save
+      redirect_to("/directors/#{the_id}", { :notice => "Director updated successfully." })
+    else
+      redirect_to("/directors#{the_id}", { :notice => "Director failed to update successfully." })
+    end
+  end
 end
